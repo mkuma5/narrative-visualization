@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Labor-Force Gender Gap - Scene 1</title>
+
+  <!-- shared stylesheet (keep the path you used in Scene 0) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- the only three libraries allowed for the project -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+
+ 
+  <script src="scene-common.js"></script>
+  <script src="scene-one.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Where do women work as much as men?</h1>
+    <p id="deck">
+      The map highlights the <strong>three countries with the narrowest gender gaps</strong>
+      in labour-force participation. Click “Next” to move to the next scene.
+    </p>
+  </header>
+
+  <!-- SVG container for the choropleth -->
+  <svg id="map" width="960" height="550"
+       aria-label="Female-to-male labour-force participation ratio, latest year"></svg>
+
+  <!-- simple slideshow navigation -->
+  <nav class="pager">
+    <a class="nav-btn" id="prev-btn" href="index.html">Prev</a>
+    <!-- change the next‑scene filename when you create it -->
+    <a class="nav-btn" id="next-btn" href="scene-two.html">Next</a>
+  </nav>
+</body>
+</html>
