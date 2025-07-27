@@ -22,7 +22,7 @@
     <h1>Where do women work as much as men?</h1>
     <p id="deck">
       The map highlights the <strong>three countries with the narrowest gender gaps</strong>
-      in labour-force participation. Click “Next” to move to the next scene.
+      in labour-force participation. Notice that these countries are in Asia and Africa.
     </p>
   </header>
 
@@ -36,5 +36,11 @@
     <!-- change the next‑scene filename when you create it -->
     <a class="nav-btn" id="next-btn" href="scene-two.html">Next</a>
   </nav>
+  <script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') location.href = document.querySelector('#next-btn')?.href ?? location.href;
+      if (e.key === 'ArrowLeft')  location.href = document.querySelector('#prev-btn')?.href ?? location.href;
+    });
+  </script>
 </body>
 </html>

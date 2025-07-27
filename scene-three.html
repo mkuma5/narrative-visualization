@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Labor‑Force Gender Gap – Scene 3</title>
+
+  <!-- shared stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- allowed libraries (must load BEFORE main.js) -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <h1>Where do women work as much as men?</h1>
+    <p id="deck">
+      This final view shows the full choropleth for the latest year. As we have seen previously, 
+      Asia and Africa both have some of the highest and lowest labor participation rates for women. 
+      This highlights how diverse the labor culture can be within the same continent.
+      Hover over the map to explore more!
+    </p>
+  </header>
+
+  <!-- SVG container expected by main.js -->
+  <svg id="map" width="960" height="550"
+       aria-label="Female-to-male labor‑force participation ratio, latest year">
+    </svg>
+
+     <!-- your working choropleth code (do not modify) -->
+  <script src="scene-three.js"></script>
+
+  <!-- navigation: last scene (Prev enabled, Next disabled) -->
+   <nav class="pager">
+    <a class="nav-btn" id="prev-btn" href="scene-two.html">Prev</a>
+    <a class="nav-btn" id="next-btn" href="index.html">Restart</a>
+   </nav>
+    <script>
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') location.href = document.querySelector('#next-btn')?.href ?? location.href;
+            if (e.key === 'ArrowLeft')  location.href = document.querySelector('#prev-btn')?.href ?? location.href;
+        });
+    </script>
+</body>
+</html>

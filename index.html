@@ -21,10 +21,15 @@
         100&nbsp;men working or looking for work, <strong>76&nbsp;women</strong> do so.<br>
         Lower ratios (yellow) mark larger gender gaps; higher ratios (green) mark narrower gaps.
     </p> -->
-    <p id="deck">Press <strong>Start</strong> to follow the story.</p>
+    <p id="deck">Press <strong>Start</strong> or <strong>Right Arrow</strong> to follow the story.</p>
     <svg id="map" width="960" height="550"></svg>
     <nav class="pager">
       <a class="nav-btn" id="start-btn" href="scene-one.html">Start</a>
     </nav>
+    <script>
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') location.href = document.querySelector('#start-btn')?.href ?? location.href;
+      });
+    </script>
 </body>
 </html>
