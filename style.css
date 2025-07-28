@@ -1,11 +1,9 @@
-/* ------------ global layout ------------ */
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
   text-align: center;
 }
 
-/* ------------ header ------------ */
 header {
   padding: 1.5rem 0 0.5rem;
 }
@@ -20,35 +18,14 @@ h1 {
   margin: 0.25rem 0 1.25rem;
 }
 
-/* ------------ SVG map ------------ */
 #map {
   max-width: 100%;
   height: auto;
 }
 
-/* ------------ start button ------------ */
-/* #start-btn {
-  display: inline-block;
-  margin: 1.5rem auto;
-  padding: 0.75rem 2.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  background: #005ce6;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-#start-btn:hover {
-  background: #0047b3;
-} */
-
-/* ---- shared look for Start / Prev / Next buttons ---- */
 .nav-btn {
   display: inline-block;
-  padding: 0.75rem 2.5rem;   /* identical to #start‑btn */
+  padding: 0.75rem 2.5rem;
   font-size: 1rem;
   font-weight: 600;
   background: #005ce6;
@@ -62,12 +39,12 @@ h1 {
 
 .nav-btn:hover,
 .nav-btn:focus {
-  background: #0047b3;       /* same hover shade */
+  background: #0047b3;
 }
 
 .nav-btn:disabled,
 .nav-btn[disabled] {
-  background: #9bb3e6;       /* muted when disabled */
+  background: #9bb3e6;
   cursor: default;
   pointer-events: none;
 }
