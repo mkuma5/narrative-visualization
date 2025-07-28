@@ -2,22 +2,20 @@ const svg    = d3.select("#map");
 const width  = +svg.attr("width");
 const height = +svg.attr("height");
 
-// ---------- helper to normalise names so "Côte d'Ivoire" == "Cote dIvoire"
 function clean(str = "") {
   return str
-    .normalize("NFD")                     // remove accents
+    .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]/gi, "")           // drop spaces & punctuation
+    .replace(/[^a-z0-9]/gi, "")
     .toLowerCase();
 }
 
-// optional manual aliases for troublesome names
 const alias = {
   "unitedstates": "unitedstatesofamerica",
   "ivorycoast": "cotedivoire",
-  "czechia": "czechrepublic",             // etc. add if needed
+  "czechia": "czechrepublic"
 };
-function key(str) {                       // apply alias after cleaning
+function key(str) {
   const k = clean(str);
   return alias[k] || k;
 }
@@ -26,31 +24,24 @@ Promise.all([
   d3.csv("data/labor_gap_long.csv", d3.autoType),
   d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
 ]).then(([rows, world]) => {
-
-  /* ---------- 1. filter to the most recent year ---------- */
   const latestYear = d3.max(rows, d => d.Year);
   const latest     = rows.filter(d => d.Year === latestYear);
 
-  // --- explicit scene state (parameters) ---
   const state = {
     scene: 3,
     year: latestYear,
     tooltipEnabled: true,
     legendVisible: true,
-    // map styling
     noDataFill: "#ccc",
     countryStroke: "#fff",
     countryStrokeWidth: 0.5,
-    // colour scale
-    colorDomain: [110, 40],        // higher => yellow, lower => dark red
-    // tooltip styling/position
+    colorDomain: [110, 40],
     tooltipOffsetY: -8,
     tooltipBgFill: "rgba(0,0,0,0.75)",
     tooltipBgStroke: "#fff",
     tooltipTextFill: "#fff",
     tooltipTextSize: 12,
     tooltipTextWeight: 600,
-    // legend
     legendWidth: 200,
     legendHeight: 10,
     legendMarginX: 40,
@@ -63,16 +54,13 @@ Promise.all([
   );
   console.log(`Year ${state.year}: values for`, ratioByName.size, "countries");
 
-  /* ---------- 2. projection & path ---------- */
   const projection = d3.geoNaturalEarth1()
                        .fitSize([width, height], { type: "Sphere" });
   const path = d3.geoPath().projection(projection);
 
-  /* ---------- 3. colour scale ---------- */
   const color = d3.scaleSequential(d3.interpolateYlOrRd)
                   .domain(state.colorDomain);
 
-  /* ---------- 4. draw countries ---------- */
   const countries = topojson.feature(world, world.objects.countries).features;
 
   let countryPaths = svg.append("g")
@@ -87,18 +75,15 @@ Promise.all([
        .attr("stroke", state.countryStroke)
        .attr("stroke-width", state.countryStrokeWidth);
 
-  // attach tooltip interactions if enabled
   if (state.tooltipEnabled) {
     countryPaths
-      .attr("tabindex", 0) // keyboard focusable
+      .attr("tabindex", 0)
       .on("mouseenter", (event, d) => showTooltip(d))
       .on("mouseleave", hideTooltip)
       .on("focus",      (event, d) => showTooltip(d))
       .on("blur",       hideTooltip);
   }
 
-  /* ---------- 5. SVG tooltip (anchored near the country) ---------- */
-  // build regardless; we’ll simply never show it if disabled
   const tipG = svg.append("g")
     .attr("class", "svg-tooltip")
     .style("display", "none")
@@ -123,7 +108,6 @@ Promise.all([
     const v = ratioByName.get(key(name));
     const lines = [name, v != null ? `${v.toFixed(1)} %` : "no data"];
 
-    // set text (two lines)
     tipText.selectAll("tspan").remove();
     tipText.selectAll("tspan")
       .data(lines)
@@ -132,7 +116,6 @@ Promise.all([
         .attr("dy", (d, i) => i === 0 ? 0 : 14)
         .text(d => d);
 
-    // size background to text bbox with padding
     const b = tipText.node().getBBox();
     const padX = 8, padY = 6;
     tipRect
@@ -141,7 +124,6 @@ Promise.all([
       .attr("width",  b.width  + padX * 2)
       .attr("height", b.height + padY * 2);
 
-    // position near the country's centroid (slightly above)
     const [cx, cy] = path.centroid(feature);
     tipG
       .attr("transform", `translate(${cx}, ${cy + state.tooltipOffsetY})`)
@@ -153,22 +135,19 @@ Promise.all([
     tipG.style("display", "none");
   }
 
-  /* ---------- 6. legend ---------- */
   const legendWidth  = state.legendWidth;
   const legendHeight = state.legendHeight;
 
-  // gradient definition
   const defs = svg.append("defs");
   const gradient = defs.append("linearGradient")
-      .attr("id", "legend-grad"); // ASCII id to avoid weird hyphen chars
+      .attr("id", "legend-grad");
 
   gradient.selectAll("stop")
-    .data(d3.range(0, 1.01, 0.1))              // 0, 0.1, …, 1
+    .data(d3.range(0, 1.01, 0.1))
     .enter().append("stop")
       .attr("offset", d => d)
-      .attr("stop-color", d => color(40 + d*70));   // 40 → 110
+      .attr("stop-color", d => color(40 + d*70));
 
-  // container group (bottom‑right corner)
   const legendGroup = svg.append("g")
       .attr("class", "legend")
       .attr("transform",
@@ -176,16 +155,14 @@ Promise.all([
                     ${height - state.legendMarginY})`)
       .style("opacity", state.legendVisible ? 1 : 0);
 
-  // coloured bar
   legendGroup.append("rect")
       .attr("width",  legendWidth)
       .attr("height", legendHeight)
       .style("fill", "url(#legend-grad)")
-      .attr("stroke", "#999"); // subtle outline for contrast on light bg
+      .attr("stroke", "#999");
 
-  // axis with tick labels
   const xLeg = d3.scaleLinear()
-                 .domain([40, 110])            // same as colour domain
+                 .domain([40, 110])
                  .range([0, legendWidth]);
 
   legendGroup.append("g")
@@ -195,7 +172,6 @@ Promise.all([
               .tickFormat(d => d + "%"))
       .select(".domain").remove();
 
-  // title
   legendGroup.append("text")
       .attr("x", legendWidth / 2)
       .attr("y", -6)

@@ -3,19 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <title>Labor-Force Gender Gap - Scene 2</title>
-
   <link rel="stylesheet" href="style.css" />
-
-  <!-- allowed libs -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://unpkg.com/topojson-client@3"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
-
-  <!-- shared helpers + this scene -->
   <script src="scene-common.js"></script>
   <script src="scene-two.js"></script>
 </head>
-
 <body>
   <header>
     <h1>Where do women work as much as men?</h1>
@@ -24,19 +18,15 @@
       (i.e., the largest gender gaps). Again, notice that these countries are also in Asia and Africa. 
     </p>
   </header>
-
-  <svg id="map" width="960" height="550"
-       aria-label="Countries with the lowest female-to-male labour-force participation ratio"></svg>
-
-  <!-- navigation (buttons share the .nav-btn style you already added) -->
-   <nav class="pager">
-        <a class="nav-btn" id="prev-btn" href="scene-one.html">Prev</a>
-        <a class="nav-btn" id="next-btn" href="scene-three.html">Next</a> 
-   </nav>
+  <svg id="map" width="960" height="550" aria-label="Countries with the lowest female-to-male labour-force participation ratio"></svg>
+  <nav class="pager">
+    <a class="nav-btn" id="prev-btn" href="scene-one.html">Prev</a>
+    <a class="nav-btn" id="next-btn" href="scene-three.html">Next</a> 
+  </nav>
   <script>
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') location.href = document.querySelector('#next-btn')?.href ?? location.href;
-        if (e.key === 'ArrowLeft')  location.href = document.querySelector('#prev-btn')?.href ?? location.href;
+      if (e.key === 'ArrowRight') location.href = document.querySelector('#next-btn')?.href ?? location.href;
+      if (e.key === 'ArrowLeft')  location.href = document.querySelector('#prev-btn')?.href ?? location.href;
     });
   </script>
 </body>
